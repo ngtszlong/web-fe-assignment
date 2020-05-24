@@ -86,7 +86,8 @@ function addtohot(myObj){
 
 function updatedata(myObj){
 	var url = myObj.id
-
+	console.log(myObj)
+	console.log(url)
 	var request = new XMLHttpRequest()
 	var productname = document.getElementById("edtname" +  url).value
 	var productprice = document.getElementById("edtprice" + url).value
