@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Register</title>
+	<link rel="stylesheet" href="auth.css">
+	<script type="text/javascript">
+	function signup() {
+		var request = new XMLHttpRequest()
+		var email = document.getElementById("email").value
+		var password = document.getElementById("password").value
+		if(email == ""){
+			alert("Please input email")
+			document.location.href = "register.html"
+		}else if(password == ""){
+			alert("Please input password")
+			document.location.href = "register.html"
+		}else{
+			var user = JSON.stringify({
+			"email": email,
+			"password": password
+			})
+			console.log(email +" "+ password)
+			request.open('POST', 'https://web-apiassignment.herokuapp.com/user/signup', false)
+			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+			request.onreadystatechange = function() {
+				if(request.readyState == 4) {
+				if(request.status == 201) {
+					console.log("successful");
+					alert("Create Account Successful, Please Login at the login page")
+					redirect()
+				} else {
+					console.log("failed");
+					alert("Please Try Again")
+					document.location.href = "login.html"
+				}
+			}
+			};
+			request.send(user)
+		}
+	}
+
+	function redirect() {
+		setTimeout(function() {
+			document.location.href = "login.html"
+		}, 500)
+	}
+	</script>
+</head>
+
+<body>
+	<form method="POST" required>
+		<div>
+			<h1>Register</h1>
+			<label>Email</label>
+			<input type="email" id="email" name="email" required="required">
+			<br/>
+			<label>Password</label>
+			<input type="password" id="password" name="password" required="required">
+			<br/>
+			<input id="submit" class="submit" type="submit" value="Register" onclick="this.disabled= true; signup()"> </div>
+		<div class="account">
+			<p>Already have an account?<a href="login.html">Sign in</a></p>
+		</div>
+	</form>
+</body>
+
+</html>

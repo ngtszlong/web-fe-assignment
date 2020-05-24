@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Profile</title>
+	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="profile.css">
+	<script type="text/javascript">
+		var email = localStorage.getItem('email');
+		var password = localStorage.getItem('password');
+		var id = localStorage.getItem('id');
+		var token = localStorage.getItem('token');
+		window.onload = function(){
+			document.getElementById("email").value = email
+			document.getElementById("password").value = password
+		}
+
+		function updateac(){
+			var request = new XMLHttpRequest()
+			var email = document.getElementById("email").value
+			var password = document.getElementById("password").value
+			var emailjson = JSON.stringify([
+				{
+					"propName": "email", "value": email
+				}
+			])
+			var passwordjson = JSON.stringify([
+				{
+					"propName": "password", "value": password
+				}
+			])
+			request.open('PATCH', 'https://web-apiassignment.herokuapp.com/user/'+id, false)
+			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+			request.setRequestHeader('Authorization', 'Bearer '+ token)
+			request.onreadystatechange = function() {
+				if(request.readyState == 4) {
+					if(request.status == 200) {
+						localStorage.setItem('email', email);
+						console.log("successful");
+					} else {
+						console.log("failed");
+					}
+				}
+			};
+			request.send(emailjson)
+			request.open('PATCH', 'https://web-apiassignment.herokuapp.com/user/'+id, false)
+			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+			request.setRequestHeader('Authorization', 'Bearer '+ token)
+			request.onreadystatechange = function() {
+				if(request.readyState == 4) {
+					if(request.status == 200) {
+						localStorage.setItem('password', password);
+						console.log("successful");
+					} else {
+						console.log("failed");
+					}
+				}
+			};
+			request.send(passwordjson)
+		}
+		
+		function deleteac(){
+			var request = new XMLHttpRequest()
+			request.open('DELETE', 'https://web-apiassignment.herokuapp.com/user/'+id, false)
+			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
+			request.setRequestHeader('Authorization', 'Bearer '+ token)
+			request.onreadystatechange = function() {
+				if(request.readyState == 4) {
+					if(request.status == 200) {
+						console.log("successful");
+						localStorage.clear
+						document.location.href = "login.html"
+					} else {
+						console.log("failed");
+					}
+				}
+			};
+			request.send()
+			localStorage.clear()
+		}
+
+		function logout(){
+			localStorage.clear();
+		}
+	</script>
+</head>
+
+<body>
+	<div class="header">
+		<h1>Manage Product System</h1> </div>
+	<div class="topnav"> <a href="main.html">Home</a> <a href="product.html">Product</a><a href="login.html" onclick="logout()" style="float: right;">Logout</a> <a href="profile.html" style="float: right;">Profile</a></div>
+	<div style="overflow:auto">
+		<div class="main">
+			<form method="POST">
+				<h2>You Profile</h2>
+				<label>Email</label>
+				<input type="email" name="email" id="email" value="">
+				<label>Password</label>
+				<input type="password" name="password" id="password" value="" disabled>
+				<input type="submit" id="update" class="update" value="Update" onclick="updateac()">
+				<input type="submit" id="delete" class="delete" value="Delete Account" onclick="deleteac()"> </form>
+		</div>
+	</div>
+	<div class="end">© 304CEM assignment</div>
+</body>
+
+</html>

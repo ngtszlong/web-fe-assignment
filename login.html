@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" href="auth.css">
+	<script type="text/javascript">
+	function signin() {
+		var request = new XMLHttpRequest()
+		var email = document.getElementById("email").value
+		var password = document.getElementById("password").value
+		if(email == ""){
+			alert("Please input email")
+			document.location.href = "login.html"
+		}else if(password == ""){
+			alert("Please input password")
+			document.location.href = "login.html"
+		}else{
+			var user = JSON.stringify({
+				"email": email,
+				"password": password
+			})
+			request.open('POST', 'https://web-apiassignment.herokuapp.com/user/login', false);
+			request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+			request.onreadystatechange = function() {
+				var responseObject = JSON.parse(this.response);
+				if(responseObject.token){
+					localStorage.setItem('email', email);
+					localStorage.setItem('password', password);
+					localStorage.setItem('id', responseObject.id);
+					localStorage.setItem('token', responseObject.token);
+				}else{
+					console.log("No token received");
+				}
+			};
+			request.send(user);
+			if(request.readyState == 4) {
+				if(request.status == 200) {
+					console.log("successful");
+					redirect();
+				} else {
+					console.log("failed");
+					alert("You enter incorrect email or password")
+					document.location.href = "login.html"
+				}
+			}
+		}
+	}
+
+	function redirect() {
+		setTimeout(function() {
+			document.location.href = "main.html"
+		}, 500)
+	}
+	</script>
+</head>
+
+<body>
+	<form method="POST" required>
+		<div>
+			<h1>Login</h1>
+			<label>Email</label>
+			<input type="email" id="email" name="email" required="required">
+			<br/>
+			<label>Password</label>
+			<input type="password" id="password" name="password" required="required">
+			<br/>
+			<input id="submit" class="submit" type="submit" value="Login" onclick="this.disabled= true; signin()"></div>
+		<div class="account">
+			<p>Don't have account?<a href="register.html">Sign Up</a></p>
+		</div>
+	</form>
+</body>
+
+</html>
