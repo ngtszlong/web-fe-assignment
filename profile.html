@@ -48,8 +48,8 @@
 				if(request.readyState == 4) {
 					if(request.status == 200) {
 						console.log("successful");
+						redirect()
 						localStorage.clear
-						document.location.href = "login.html"
 					} else {
 						console.log("failed");
 					}
@@ -61,6 +61,12 @@
 
 		function logout(){
 			localStorage.clear();
+		}
+
+		function redirect() {
+			setTimeout(function() {
+				document.location.href = "login.html"
+			}, 500)
 		}
 	</script>
 </head>
@@ -78,7 +84,7 @@
 				<label>Password</label>
 				<input type="password" name="password" id="password" value="" disabled>
 				<input type="submit" id="update" class="update" value="Update" onclick="updateac()">
-				<input type="submit" id="delete" class="delete" value="Delete Account" onclick="deleteac()"> </form>
+				<input type="submit" id="delete" class="delete" value="Delete Account" onclick="this.disabled= true; deleteac()"> </form>
 		</div>
 	</div>
 	<div class="end">304CEM assignment</div>
