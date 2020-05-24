@@ -11,7 +11,6 @@ request.onload = function() {
 	if(request.status >= 200 && request.status < 400) {
 		for(i = 0; i < data.hots.length; i++) {
 			deleteitemid = data.hots[i]._id
-			console.log(deleteitemid)
 			var request1 = new XMLHttpRequest()
 			request1.open('GET', 'https://web-apiassignment.herokuapp.com/hot/' + data.hots[i]._id, true)
 			request1.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
@@ -20,7 +19,6 @@ request.onload = function() {
 				var data1 = JSON.parse(this.response)
 				data1 = JSON.stringify(data1, 'hot')
 				data1 = JSON.parse(data1)
-				console.log(data1)
 				if(request1.status >= 200 && request1.status < 400) {
 					var app = document.getElementById('orderlist')
 					var card = document.createElement('div')
@@ -63,7 +61,6 @@ request.send()
 
 function deleteproduct(myObj) {
 	var Objid = myObj.id
-	console.log(Objid)
 	var request = new XMLHttpRequest()
 	request.open('DELETE', 'https://web-apiassignment.herokuapp.com/hot/' + Objid, false)
 	request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
